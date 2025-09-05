@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kalkulator Aljabar</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Tombol Toggle Dark Mode -->
+    <button id="theme-toggle">🌙 Dark Mode</button>
+
+    <div class="container">
+        <h1>Kalkulator Aljabar</h1>
+        <form method="POST">
+            <label>Polinomial 1:</label>
+            <input type="text" name="poly1_expr" placeholder="contoh: 5x^2-6x+7 atau (a^2+b^2+2ab)(a+b)" required>
+
+            <label>Polinomial 2 (opsional):</label>
+            <input type="text" name="poly2_expr" placeholder="contoh: (x+1)(x-3)">
+
+            <label>Nilai variabel (opsional, untuk evaluasi). Format: a=1,b=2,c=3</label>
+            <input type="text" name="subs_values" placeholder="contoh: a=1,b=2,c=3">
+
+            <label>Operasi:</label>
+            <select name="operation" required>
+                <option value="add">➕ Penjumlahan</option>
+                <option value="sub">➖ Pengurangan</option>
+                <option value="mul">✖️ Perkalian</option>
+                <option value="div">➗ Pembagian</option>
+                <option value="remainder">🔻 Sisa Pembagian</option>
+                <option value="factor">🔍 Faktorisasi (Poly1)</option>
+                <option value="diff">∂ Turunan (Poly1)</option>
+                <option value="integral">∫ Integral (Poly1)</option>
+                <option value="eval">📌 Evaluasi (Poly1)</option>
+                <option value="roots">🔑 Akar-akar (Poly1)</option>
+                <option value="plot">📈 Grafik (Poly1)</option>
+            </select>
+
+            <button type="submit">Hitung</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Hasil:</h2>
+            <p>{{ result | safe }}</p>
+            {% if plot_filename %}
+            <div class="graph-container">
+                <img src="{{ url_for('serve_plot', filename=plot_filename) }}" alt="Grafik Fungsi">
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- File JS -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
